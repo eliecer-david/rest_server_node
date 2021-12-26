@@ -1,11 +1,11 @@
 const { response } = require("express");
 
 const usersGet = (req, res = response) => {
-  const { name } = req.query;
+  const { name, page = 1, limit = 10 } = req.query;
 
   res.json({
     message: "get users from controller",
-    name
+    name, page, limit
   });
 }
 
