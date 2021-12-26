@@ -7,11 +7,11 @@ const usersGet = (req, res = response) => {
 }
 
 const usersPost = (req, res = response) => {
-  const body = req.body;
+  const { name, age } = req.body;
 
   res.json({
     message: "post users from controller",
-    body
+    name, age
   });
 }
 
