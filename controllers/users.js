@@ -16,14 +16,20 @@ const usersPost = (req, res = response) => {
 }
 
 const usersPut = (req, res = response) => {
+  const { id } = req.params;
+
   res.json({
-    message: "put users from controller"
+    message: "put users from controller",
+    id
   });
 }
 
 const usersDelete = (req, res = response) => {
+  const { id } = req.params;
+
   res.json({
-    message: "delete users from controller"
+    message: "delete users from controller",
+    id
   });
 }
 
