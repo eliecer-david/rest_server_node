@@ -7,6 +7,8 @@ class Server {
     this.app = express();
     this.port = port;
 
+    this.usersPath = "/api/users";
+
     this.registerMiddleware();
     this.registerRoutes();
   }
@@ -17,29 +19,7 @@ class Server {
   }
 
   registerRoutes() {
-    this.app.get("/api", (req, res) => {
-      res.json({
-        message: "get api"
-      });
-    });
-
-    this.app.post("/api", (req, res) => {
-      res.json({
-        message: "post api"
-      });
-    });
-
-    this.app.put("/api", (req, res) => {
-      res.json({
-        message: "put api"
-      });
-    });
-
-    this.app.delete("/api", (req, res) => {
-      res.json({
-        message: "delete api"
-      });
-    });
+    this.app.use(this.usersPath, require("../routes/users"));
   }
 
   start() {
