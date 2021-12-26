@@ -6,12 +6,17 @@ class Server {
     this.app = express();
     this.port = port;
 
+    this.registerMiddleware();
     this.registerRoutes();
   }
 
+  registerMiddleware() {
+    this.app.use(express.static("public"));
+  }
+
   registerRoutes() {
-    this.app.get("/", (req, res) => {
-      res.send("Hello world");
+    this.app.get("/api", (req, res) => {
+      res.send("index api");
     });
   }
 
