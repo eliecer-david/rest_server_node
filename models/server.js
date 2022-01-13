@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const { dbConnection } = require("../database/config");
 
 class Server {
 
@@ -9,8 +10,14 @@ class Server {
 
     this.usersPath = "/api/users";
 
+    this.loadDBConnection();
+
     this.registerMiddleware();
     this.registerRoutes();
+  }
+
+  async loadDBConnection() {
+    await dbConnection();
   }
 
   registerMiddleware() {
@@ -25,7 +32,7 @@ class Server {
 
   start() {
     this.app.listen(this.port, () => {
-      console.log(`Server is running on port ${ this.port }`);
+      console.log(`Server is running on port ${this.port}`);
     });
   }
 }
