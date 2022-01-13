@@ -1,4 +1,5 @@
 const { response } = require("express");
+const { validationResult } = require("express-validator");
 const bcryptjs = require("bcryptjs");
 
 const User = require("../models/user");
@@ -13,7 +14,13 @@ const usersGet = (req, res = response) => {
 }
 
 const usersPost = async (req, res = response) => {
-  const { name, email, password, role } = req.body;
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return res.status(400).json(errors);
+  }
+
+    const { name, email, password, role } = req.body;
   const user = new User({ name, email, role });
 
   const salt = bcryptjs.genSaltSync();
