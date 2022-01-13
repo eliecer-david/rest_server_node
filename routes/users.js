@@ -10,7 +10,10 @@ const router = Router();
 router.get("/", usersGet);
 
 router.post("/", [
-  check("email", "email is invalid").isEmail()
+  check("name", "name is required").not().isEmpty(),
+  check("email", "email is invalid").isEmail(),
+  check("password", "password must be more than 6 letters").isLength({ min: 6}),
+  check("role", "role is invalid").isIn([ "ADMIN_ROLE", "USER_ROLE"])
 ], usersPost);
 
 router.put("/:id", usersPut);
