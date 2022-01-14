@@ -5,8 +5,8 @@ const { usersGet,
         usersPost,
         usersPut,
         usersDelete } = require("../controllers/users");
+const { isRoleFromDB } = require("../helpers/db-validators");
 const { processValidations } = require("../middlewares/process-validations");
-const Role = require("../models/role");
 
 const router = Router();
 
@@ -16,13 +16,7 @@ router.post("/", [
   check("name", "name is required").not().isEmpty(),
   check("email", "email is invalid").isEmail(),
   check("password", "password must be more than 6 letters").isLength({ min: 6}),
-  check("role").custom(async (role = "") => {
-    const isValid = await Role.findOne({ role });
-
-    if (!isValid) {
-      throw new Error(`Role ${ role } is not in DB`);
-    }
-  }),
+  check("role").custom(isRoleFromDB),
   processValidations
 ], usersPost);
 
