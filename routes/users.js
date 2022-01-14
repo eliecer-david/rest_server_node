@@ -5,7 +5,7 @@ const { usersGet,
         usersPost,
         usersPut,
         usersDelete } = require("../controllers/users");
-const { isRoleFromDB, uniqueEmail } = require("../helpers/db-validators");
+const { isRoleFromDB, uniqueEmail, isUserIdFromDB } = require("../helpers/db-validators");
 const { processValidations } = require("../middlewares/process-validations");
 
 const router = Router();
@@ -21,7 +21,11 @@ router.post("/", [
   processValidations
 ], usersPost);
 
-router.put("/:id", usersPut);
+router.put("/:id", [
+  check("id", "id is not valid").isMongoId(),
+  check("id").custom(isUserIdFromDB),
+  processValidations
+], usersPut);
 
 router.delete("/:id", usersDelete);
 
