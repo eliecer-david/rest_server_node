@@ -5,7 +5,7 @@ const { usersGet,
         usersPost,
         usersPut,
         usersDelete } = require("../controllers/users");
-const { isRoleFromDB } = require("../helpers/db-validators");
+const { isRoleFromDB, uniqueEmail } = require("../helpers/db-validators");
 const { processValidations } = require("../middlewares/process-validations");
 
 const router = Router();
@@ -15,6 +15,7 @@ router.get("/", usersGet);
 router.post("/", [
   check("name", "name is required").not().isEmpty(),
   check("email", "email is invalid").isEmail(),
+  check("email").custom(uniqueEmail),
   check("password", "password must be more than 6 letters").isLength({ min: 6}),
   check("role").custom(isRoleFromDB),
   processValidations
