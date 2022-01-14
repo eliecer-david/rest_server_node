@@ -27,12 +27,21 @@ const usersPost = async (req, res = response) => {
   });
 }
 
-const usersPut = (req, res = response) => {
+const usersPut = async (req, res = response) => {
   const { id } = req.params;
+  const { name, email, password, role } = req.body;
+
+  const body = { name, email, role }
+  if (password) {
+    const salt = bcryptjs.genSaltSync();
+    body.password = bcryptjs.hashSync(password, salt);
+  }
+
+  const user = await User.findByIdAndUpdate(id, body);
 
   res.json({
     message: "put users from controller",
-    id
+    user
   });
 }
 
