@@ -9,8 +9,15 @@ const isRoleFromDB = async (role = "") => {
   }
 }
 
-const uniqueEmail = async (email = "") => {
-  const isUsed = await User.findOne({ email });
+const uniqueEmail = async (email = "", ignoreId = null) => {
+  let isUsed;
+
+  if (ignoreId !== null) {
+    isUsed = await User.findOne({ email })
+    .where('_id').ne(ignoreId);
+  } else {
+    isUsed = await User.findOne({ email });
+  }
 
   if (isUsed) {
     throw new Error(`email ${ email } is already being used`);

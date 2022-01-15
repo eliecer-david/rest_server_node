@@ -15,7 +15,7 @@ router.get("/", usersGet);
 router.post("/", [
   check("name", "name is required").not().isEmpty(),
   check("email", "email is invalid").isEmail(),
-  check("email").custom(uniqueEmail),
+  check("email").custom(value => uniqueEmail(value)),
   check("password", "password must be more than 6 letters").isLength({ min: 6}),
   check("role").custom(isRoleFromDB),
   processValidations
@@ -26,6 +26,7 @@ router.put("/:id", [
   check("id").custom(isUserIdFromDB),
   check("name", "name is required").not().isEmpty(),
   check("email", "email is invalid").isEmail(),
+  check("email").custom((email, { req }) => uniqueEmail(email, req.params.id)),
   check("role").custom(isRoleFromDB),
   processValidations
 ], usersPut);
