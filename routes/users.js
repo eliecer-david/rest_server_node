@@ -24,6 +24,9 @@ router.post("/", [
 router.put("/:id", [
   check("id", "id is not valid").isMongoId(),
   check("id").custom(isUserIdFromDB),
+  check("name", "name is required").not().isEmpty(),
+  check("email", "email is invalid").isEmail(),
+  check("role").custom(isRoleFromDB),
   processValidations
 ], usersPut);
 
