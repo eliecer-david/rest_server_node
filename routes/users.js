@@ -10,7 +10,11 @@ const { processValidations } = require("../middlewares/process-validations");
 
 const router = Router();
 
-router.get("/", usersGet);
+router.get("/", [
+  check("page", "page should be an integer").isInt(),
+  check("limit", "limit should be an integer").isInt(),
+  processValidations
+], usersGet);
 
 router.post("/", [
   check("name", "name is required").not().isEmpty(),
