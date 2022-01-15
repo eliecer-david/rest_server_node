@@ -25,7 +25,8 @@ const uniqueEmail = async (email = "", ignoreId = null) => {
 }
 
 const isUserIdFromDB = async (id = "") => {
-  const exists = await User.findById(id);
+  const exists = await User.findById(id)
+    .where(User.getActiveClause());
 
   if (!exists) {
     throw new Error(`user ${ id } does not exist`);

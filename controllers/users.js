@@ -9,11 +9,10 @@ const usersGet = async (req, res = response) => {
   page = Number(page);
   limit = Number(limit);
   const nroSkippedUsers = (page - 1) * limit;
-  const query = { status: true };
 
   const [ total, users ] = await Promise.all([
-    User.countDocuments(query),
-    User.find(query)
+    User.countDocuments(User.getActiveClause()),
+    User.find(User.getActiveClause())
       .skip(nroSkippedUsers)
       .limit(limit)
   ]);

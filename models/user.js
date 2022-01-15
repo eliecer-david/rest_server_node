@@ -32,4 +32,8 @@ const UserSchema = Schema({
   }
 });
 
+UserSchema.static("getActiveClause", function () {
+  return { status: true };
+});
+
 module.exports = model("User", UserSchema);
