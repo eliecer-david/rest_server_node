@@ -9,13 +9,17 @@ const usersGet = async (req, res = response) => {
   page = Number(page);
   limit = Number(limit);
   const nroSkippedUsers = (page - 1) * limit;
+  const query = { status: true };
 
-  const users = await User.find()
+  const users = await User.find(query)
     .skip(nroSkippedUsers)
     .limit(limit);
 
+  const total = await User.countDocuments(query);
+
   res.json({
     message: "get users from controller",
+    total,
     users,
     page, limit
   });
