@@ -59,12 +59,14 @@ const usersPut = async (req, res = response) => {
   });
 }
 
-const usersDelete = (req, res = response) => {
+const usersDelete = async (req, res = response) => {
   const { id } = req.params;
+
+  const user = await User.findByIdAndUpdate(id, { status: false });
 
   res.json({
     message: "delete users from controller",
-    id
+    user
   });
 }
 
