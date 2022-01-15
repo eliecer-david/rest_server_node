@@ -60,8 +60,14 @@ const usersPut = async (req, res = response) => {
 
 const usersDelete = async (req, res = response) => {
   const { id } = req.params;
+  const { force } = req.query;
 
-  const user = await User.findByIdAndUpdate(id, { status: false });
+  let user;
+  if (force === "true") {
+    user = await User.findByIdAndDelete(id);
+  } else {
+    user = await User.findByIdAndUpdate(id, { status: false });
+  }
 
   res.json({
     message: "delete users from controller",
