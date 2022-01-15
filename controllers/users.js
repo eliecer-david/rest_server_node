@@ -3,12 +3,21 @@ const bcryptjs = require("bcryptjs");
 
 const User = require("../models/user");
 
-const usersGet = (req, res = response) => {
-  const { name, page = 1, limit = 10 } = req.query;
+const usersGet = async (req, res = response) => {
+  let { page = 1, limit = 5 } = req.query;
+
+  page = Number(page);
+  limit = Number(limit);
+  const nroSkippedUsers = (page - 1) * limit;
+
+  const users = await User.find()
+    .skip(nroSkippedUsers)
+    .limit(limit);
 
   res.json({
     message: "get users from controller",
-    name, page, limit
+    users,
+    page, limit
   });
 }
 
