@@ -51,7 +51,7 @@ const usersPut = async (req, res = response) => {
     body.password = bcryptjs.hashSync(password, salt);
   }
 
-  const user = await User.findByIdAndUpdate(id, body);
+  const user = await User.findByIdAndUpdate(id, body, { returnDocument: 'after' });
 
   res.json({
     message: "put users from controller",
