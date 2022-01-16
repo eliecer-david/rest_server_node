@@ -9,6 +9,7 @@ class Server {
     this.port = port;
 
     this.usersPath = "/api/users";
+    this.authPath = "/api/auth";
 
     this.loadDBConnection();
 
@@ -27,6 +28,7 @@ class Server {
   }
 
   registerRoutes() {
+    this.app.use(this.authPath, require("../routes/auth"));
     this.app.use(this.usersPath, require("../routes/users"));
   }
 
