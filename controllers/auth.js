@@ -1,5 +1,6 @@
 const bcryptjs = require("bcryptjs");
 const { response } = require("express");
+const { jwtGenerator } = require("../helpers/jwt-generator");
 
 const User = require("../models/user");
 
@@ -18,9 +19,11 @@ const login = async (req, res = response) => {
     return res.status(400).json({ message: "credentials are incorrect" });
   }
 
+  const token = await jwtGenerator(user.id);
+
   res.json({
     message: "auth login from controller",
-    email, password
+    user, token
   });
 }
 
