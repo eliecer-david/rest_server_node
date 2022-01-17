@@ -13,12 +13,15 @@ const { isAdmin } = require("../middlewares/verify-role");
 const router = Router();
 
 router.get("/", [
+  verifyJWT,
   check("page", "page should be an integer").isInt(),
   check("limit", "limit should be an integer").isInt(),
   processValidations
 ], usersGet);
 
 router.post("/", [
+  verifyJWT,
+  isAdmin,
   check("name", "name is required").not().isEmpty(),
   check("email", "email is invalid").isEmail(),
   check("email").custom(value => uniqueEmail(value)),
@@ -28,6 +31,8 @@ router.post("/", [
 ], usersPost);
 
 router.put("/:id", [
+  verifyJWT,
+  isAdmin,
   check("id", "id is not valid").isMongoId(),
   check("id").custom(isUserIdFromDB),
   check("name", "name is required").not().isEmpty(),
