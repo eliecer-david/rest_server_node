@@ -36,4 +36,16 @@ UserSchema.static("getActiveClause", function () {
   return { status: true };
 });
 
+UserSchema.methods.toJSON = function () {
+  const { _id, name, email, role, fromGoogle } = this.toObject();
+
+  return {
+    uid: _id,
+    name,
+    email,
+    role,
+    fromGoogle
+  }
+}
+
 module.exports = model("User", UserSchema);
