@@ -8,6 +8,7 @@ const { usersGet,
 const { isRoleFromDB, uniqueEmail, isUserIdFromDB } = require("../helpers/db-validators");
 const { processValidations } = require("../middlewares/process-validations");
 const { verifyJWT } = require("../middlewares/verify-jwt");
+const { isAdmin } = require("../middlewares/verify-role");
 
 const router = Router();
 
@@ -38,6 +39,7 @@ router.put("/:id", [
 
 router.delete("/:id", [
   verifyJWT,
+  isAdmin,
   check("id", "id is not valid").isMongoId(),
   check("id").custom(isUserIdFromDB),
   processValidations
