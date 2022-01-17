@@ -7,6 +7,7 @@ const { usersGet,
         usersDelete } = require("../controllers/users");
 const { isRoleFromDB, uniqueEmail, isUserIdFromDB } = require("../helpers/db-validators");
 const { processValidations } = require("../middlewares/process-validations");
+const { verifyJWT } = require("../middlewares/verify-jwt");
 
 const router = Router();
 
@@ -36,6 +37,7 @@ router.put("/:id", [
 ], usersPut);
 
 router.delete("/:id", [
+  verifyJWT,
   check("id", "id is not valid").isMongoId(),
   check("id").custom(isUserIdFromDB),
   processValidations
